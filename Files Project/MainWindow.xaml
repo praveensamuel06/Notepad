@@ -1,0 +1,134 @@
+﻿<Window x:Class="Files_Project.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Files_Project"
+        mc:Ignorable="d"
+        Closing="DataWindow_Closing" 
+        Title="Professional Editor" Width="600" MinHeight="520" MinWidth="600" Icon="Resources/ProfessionalEditorLogo.PNG">
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="MenuItem_New"></CommandBinding>
+        <CommandBinding Command="Open" Executed="MenuItem_Open"></CommandBinding>
+        <CommandBinding Command="Save" Executed="MenuItem_Save"></CommandBinding>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="New"></KeyBinding>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"></KeyBinding>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"></KeyBinding>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="120*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Canvas Grid.Row="0" FlowDirection="RightToLeft" Background="#FF6D8585">
+            <Image Height ="50" Source="Resources/ProfessionalEditorLogo.PNG" Stretch="Fill"/>
+            <Label x:Name="messageLabel" FlowDirection="LeftToRight" Padding="15" Margin="110,0,0,0" Content="" FontSize="15" FontWeight="Bold" Foreground="White" />
+        </Canvas>
+        <Canvas  Grid.Row="4" FlowDirection="LeftToRight" Background="#FF7E7D80" >
+            <Image Height ="40" Source="Resources/ProfessionalEditorLogo.PNG" Stretch="Fill"/>
+        </Canvas>
+        <Label Grid.Row="4" Content="Professional Editor WPF (c) Copyright 2016 by Praveen Samuel" HorizontalAlignment="Center"  VerticalAlignment="Center"></Label>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="70"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.Background >
+                    <ImageBrush ImageSource="Resources/Pen.PNG" />
+                </Grid.Background>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.Background >
+                    <ImageBrush ImageSource="Resources/Paper.PNG" />
+                </Grid.Background>
+            </Grid>
+            <Grid Grid.Column="3" >
+                <ToolBarTray Orientation="Vertical">
+                    <ToolBar Margin="5" Height="300" Width="60" VerticalAlignment="Center">
+                        <ToggleButton ToolTip="Bold, Ctrl+B" Command="{x:Static EditingCommands.ToggleBold}" Name="btnBold" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                            <Image Source="Resources/Bold.PNG" />
+                        </ToggleButton>
+                        <ToggleButton ToolTip="Italics, Ctrl+I" Command="EditingCommands.ToggleItalic" Name="btnItalic" VerticalAlignment="Bottom">
+                            <Image Source="Resources/Italics.PNG" />
+                        </ToggleButton>
+                        <ToggleButton ToolTip="Underline, Ctrl+U" Command="EditingCommands.ToggleUnderline" Name="btnUnderline" VerticalAlignment="Bottom">
+                            <Image Source="Resources/Underline.PNG" />
+                        </ToggleButton>
+                        <ToggleButton ToolTip="Center Align" Command="EditingCommands.AlignCenter" Name="btnAlignCenter" VerticalAlignment="Bottom">
+                            <Image Source="Resources/justify.PNG"  />
+                        </ToggleButton>
+                        <ToggleButton ToolTip="Left Align" Command="EditingCommands.AlignLeft" Name="btnAlignLeft" VerticalAlignment="Bottom">
+                            <Image Source="Resources/leftAlign.PNG" />
+                        </ToggleButton>
+                        <ToggleButton ToolTip="Right Align" Command="EditingCommands.AlignRight" Name="btnAlignRight" VerticalAlignment="Bottom">
+                            <Image Source="Resources/rightAlign.PNG" />
+                        </ToggleButton>
+                    </ToolBar>
+                </ToolBarTray>
+            </Grid>
+            <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="richTextBox" TextChanged="richTextBox_TextChanged" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" MaxHeight="500" MaxWidth="1000" Margin="50,24,60,29" SelectionChanged="richTextBox_SelectionChanged">
+                <FlowDocument>
+                    <Paragraph>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Grid>
+        <Menu x:Name="menu" Padding="5" HorizontalAlignment="Stretch" Height="30" Grid.Row="1" VerticalAlignment="Center" >
+            <Menu.Background>
+                <ImageBrush ImageSource="Resources/Menu.PNG"/>
+            </Menu.Background>
+            <MenuItem Header="File" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="14" Height="20" >
+                <MenuItem Header="New" FontSize="14"  Foreground="Black" Command="New"/>
+                <MenuItem Header="Open" FontSize="14" Foreground="Black"  Command="Open"/>
+                <MenuItem Header="Save" FontSize="14" Foreground="Black"  Command="Save"/>
+                <MenuItem Header="Save As" FontSize="14" Foreground ="Black"  Click="MenuItem_SaveAs"/>
+                <Separator/>
+                <MenuItem Header="Delete" FontSize="14" Foreground="Black"  Click="MenuItem_Delete"/>
+                <MenuItem Header="Exit" FontSize="14" Foreground="Black" Click="MenuItem_Close"/>
+            </MenuItem>
+            <MenuItem Header="Edit" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="14" >
+                <MenuItem Header="Copy" FontSize="14"  Foreground="Black" Command="ApplicationCommands.Copy"/>
+                <MenuItem Header="Cut" FontSize="14" Foreground="Black"  Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="Paste" FontSize="14" Foreground="Black"  Command="ApplicationCommands.Paste"/>                
+            </MenuItem>
+            <MenuItem Header="Format" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="14" >
+                <MenuItem Header="Reset Font Setting" FontSize="14" Foreground="Black" Click="MenuItem_Reset" />
+            </MenuItem>
+            <MenuItem Header="About" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="14" Click="MenuItem_About" >
+            </MenuItem>
+        </Menu>
+        <ToolBar x:Name="toolBar" HorizontalAlignment="Stretch" Margin="5" Padding="3" VerticalAlignment="Stretch" Grid.Row="2">
+            <WrapPanel Orientation="Vertical">
+                <Label Content="Font Color" FontFamily="Arial Black"/>
+                <ComboBox x:Name="fontColor" Width="150" IsEditable="False" TextSearch.TextPath="Name" IsTextSearchEnabled="True" SelectionChanged="fontColor_SelectionChanged" SelectedIndex="7">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Fill="{Binding Name}" Width="12" Height="12" Margin="2"/>
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>                 
+            </WrapPanel>
+            <WrapPanel Width="10"></WrapPanel>
+            <WrapPanel Orientation="Vertical">
+                <Label Content="Font Family" FontFamily="Arial Black"></Label>
+                <ComboBox x:Name="fontFamily" Width="150" IsTextSearchEnabled="True" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectionChanged="fontFamily_SelectionChanged" IsEditable="False" SelectedIndex="0"/>
+            </WrapPanel>
+            <WrapPanel Width="10"></WrapPanel>
+            <WrapPanel Orientation="Vertical">
+                <Label Content="Font Size" FontFamily="Arial Black"></Label>
+                <ComboBox x:Name="fontSize" Width="150" IsTextSearchEnabled="True"  SelectionChanged="fontSize_SelectionChanged" IsEditable="False" SelectedIndex="4"/>
+            </WrapPanel>
+        </ToolBar>
+    </Grid>
+</Window>
